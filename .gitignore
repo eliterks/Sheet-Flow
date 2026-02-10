@@ -26,4 +26,3 @@ dist-ssr
 # Project-local excludes
 Prompt.txt
 UI/
-sheet.json
