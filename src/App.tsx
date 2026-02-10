@@ -16,11 +16,8 @@ function App() {
     selectedSubTopicId,
     loadInitialData,
     selectTopic,
-    selectSubTopic,
-    addTopic,
     addSubTopic,
     addQuestion,
-    toggleSolved,
     setSearchQuery,
     searchQuery,
     setSolvedFilter,
@@ -36,7 +33,6 @@ function App() {
     loadInitialData()
   }, [loadInitialData])
 
-  const [newTopic, setNewTopic] = useState('')
   const [newSub, setNewSub] = useState('')
   const [newQuestion, setNewQuestion] = useState({ name: '', difficulty: 'Medium' as Difficulty })
 

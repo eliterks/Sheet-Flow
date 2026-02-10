@@ -1,4 +1,3 @@
-import React from 'react'
 import { useSheetStore } from '../../store'
 import type { Question } from '../../types'
 

@@ -1,4 +1,3 @@
-import React from 'react'
 import { useSheetStore } from '../../store'
 
 export function SubTopicsBar() {
@@ -25,4 +24,3 @@ export function SubTopicsBar() {
     </div>
   )
 }
-

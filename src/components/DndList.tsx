@@ -5,14 +5,9 @@ import {
   useSensors,
   closestCenter,
 } from '@dnd-kit/core'
-import {
-  SortableContext,
-  useSortable,
-  arrayMove,
-  verticalListSortingStrategy,
-} from '@dnd-kit/sortable'
+import { SortableContext, useSortable, verticalListSortingStrategy } from '@dnd-kit/sortable'
 import { CSS } from '@dnd-kit/utilities'
-import { ReactNode } from 'react'
+import type { ReactNode } from 'react'
 
 function Item({ id, children }: { id: string; children: ReactNode }) {
   const { attributes, listeners, setNodeRef, transform, transition } = useSortable({ id })
