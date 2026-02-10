@@ -69,9 +69,7 @@ SheetFlow is a **learning behavior tool**.
 
 ## How it works (under the hood)
 
-Topic
-└── Subtopic
-└── Question
+Topic ─> Subtopic ─> Question
 
 - Dataset loaded from `/public/sheet.json`
 - State handled via Zustand
