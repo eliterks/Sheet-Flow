@@ -106,7 +106,7 @@ function App() {
         <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3">
           <div className="flex items-center gap-3">
             <CodolioLogo className="h-6 w-6" />
-            <span className="font-semibold">Question Manager</span>
+            <span className="font-semibold">Sheet Flow</span>
           </div>
           <div className="flex items-center gap-2">
             <ThemeToggle />
