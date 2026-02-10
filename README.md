@@ -37,6 +37,8 @@ A modern, mobile-first DSA practice interface inspired by Codolio and Striver’
   - Tabs: Overview (heatmap), Revision (list management).
 - Sub-topics
   - Add new sub-topics; switch to scope questions.
+- Add Question
+  - Users can create/edit/delete questions under specific topics and sub-topics.
 - Questions
   - Mobile list-first; tap to open the inline card. Desktop shows stacked cards.
 - Question Card
