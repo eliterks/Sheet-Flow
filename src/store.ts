@@ -171,10 +171,11 @@ export const useSheetStore = create<SheetState & Actions>((set, get) => ({
           }
         })
       }
+      const finalTopics = topics ?? []
       set({
-        topics: topics!,
-        selectedTopicId: topics[0]?.id,
-        selectedSubTopicId: topics[0]?.subTopics[0]?.id,
+        topics: finalTopics,
+        selectedTopicId: finalTopics[0]?.id,
+        selectedSubTopicId: finalTopics[0]?.subTopics[0]?.id,
         revision: persistedObj?.revision ?? [],
         customLists: persistedObj?.customLists ?? [],
       })

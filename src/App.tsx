@@ -312,12 +312,14 @@ function App() {
                     {(() => {
                       const activeId = mobileSelectedQuestion ?? visibleQuestions[0]?.id
                       const q = visibleQuestions.find((x) => x.id === activeId)
-                      return q ? (
+                      const safeTopicId = selectedTopic?.id
+                      const safeSubId = selectedSub?.id
+                      return q && safeTopicId && safeSubId ? (
                         <div className="mt-3">
                           <QuestionCard
                             q={q}
-                            topicId={selectedTopic!.id}
-                            subId={selectedSub!.id}
+                            topicId={safeTopicId}
+                            subId={safeSubId}
                             highlight={randomPicks.includes(q.id)}
                           />
                         </div>
@@ -326,15 +328,17 @@ function App() {
                   </div>
                 ) : (
                   <div className="mt-3 space-y-3">
-                    {visibleQuestions.map((q) => (
-                      <QuestionCard
-                        key={q.id}
-                        q={q}
-                        topicId={selectedTopic!.id}
-                        subId={selectedSub!.id}
-                        highlight={randomPicks.includes(q.id)}
-                      />
-                    ))}
+                    {selectedTopic && selectedSub
+                      ? visibleQuestions.map((q) => (
+                          <QuestionCard
+                            key={q.id}
+                            q={q}
+                            topicId={selectedTopic.id}
+                            subId={selectedSub.id}
+                            highlight={randomPicks.includes(q.id)}
+                          />
+                        ))
+                      : null}
                   </div>
                 )}
               </div>
