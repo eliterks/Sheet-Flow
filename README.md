@@ -1,63 +1,111 @@
-# Sheet Flow: Smoothens your flow of learning DSA!
+# SheetFlow — Smoothening the flow of learning
 
-A modern, mobile-first DSA practice interface inspired by Codolio and Striver’s sheets, with streamlined navigation, powerful filtering, and clear progress tracking. Built with React + Vite + TypeScript and Tailwind CSS.
+> Most students don’t fail interviews because they didn’t solve enough problems.  
+> They fail because they **can’t recall patterns when needed**.
 
-## Executive Summary
-- Builds on Striver/Codolio strengths and adds a premium, study-focused visual language.
-- Fixes contrast/readability issues; introduces clear hierarchy and spacing.
-- Adds micro-interactions: hover, active, transitions, and animated progress.
-- Clarifies layout: sidebar topics, filter bar, sub-topics, and focused question cards.
-- Visual indicators everywhere: difficulty badges, accent bars, status tags.
-- Rich progress visualization: donut, bars, and topic heatmap.
+# Learn DSA the way your brain actually learns
+SheetFlow turns a static DSA sheet into an **interactive learning system** — built for retention, revision, and focused practice.
+SheetFlow is a learning layer built on top of DSA sheets — turning practice into preparation.
+🎥 **Demo Video:**  
+https://www.youtube.com/watch?v=XYsWztbl9io
 
-## Better Than Existing UIs
-- Visual hierarchy
-  - Strong section separation; clean spacing; card-focused reading experience.
-- Contrast and readability
-  - Dark navy backgrounds with subtle borders; white/gray text tuned for legibility.
-- Micro-interactions
-  - Hover states, smooth transitions, subtle elevation on card hover.
-- Difficulty/status indicators
-  - Colored difficulty badges (Easy=green, Medium=amber, Hard=red), accent bar on cards.
-- Progress visualization
-  - Topic heatmap grid, donut percent, horizontal difficulty bars.
-- Action clarity
-  - Primary/secondary button weights; always-visible sidebar toggle icon.
-- Mobile-first flow
-  - Topic → question list → inline question card (no long scroll).
+🌐 **Live App:**  
+https://sheet-flow-blush.vercel.app/
+---
 
-## Navigation
-- Header
-  - Title, theme toggle, and Reload to sync with the API.
-  - Add Topic: create new topics; rename or delete from the sidebar.
-- Sidebar (Topics)
-  - Topic rows with solved/total counts and animated gradient progress bars.
-  - Click to focus; toggle visibility via the window icon.
-  - Edit Topics: rename topic names directly from the sidebar.
-- Filter Bar
-  - Search field, Solved/Difficulty/Order dropdowns, Random picker.
-  - Tabs: Overview (heatmap), Revision (list management).
-- Sub-topics
-  - Add new sub-topics; switch to scope questions.
-- Edit/Delete Sub-topics: inline controls with drag-and-drop reordering.
-- Add Question
-  - Users can create/edit/delete questions under specific topics and sub-topics.
-- Questions
-  - Mobile list-first; tap to open the inline card. Desktop shows stacked cards.
-- Create/Edit/Delete: add new questions; rename or remove from the card actions.
-- Reorder: drag and drop to adjust question order within a sub-topic.
-- Question Card
-  - Title, metadata, difficulty badge, tags.
-  - Actions: Solved/Unsolved, Revision add/remove, Notes, Open link.
-  - Themed LeetCode and YouTube icons (dark/light compatible).
-- Right Panel (Desktop)
-  - Revision list, progress donut, difficulty bars, and streak details.
+## What this is
 
-## Development
-- Install: `npm install`
-- Run: `npm run dev`
-- Build: `npm run build`
+Traditional sheets:
+455 problems → scroll → solve → forget
+SheetFlow:
 
-## Notes
-- Local files excluded from git: Prompt.txt, UI/, sheet.json (see .gitignore).
-- Data loads from Codolio’s Striver SDE API; state persists to localStorage.
+Instead of tracking *completion*, it tracks *learning*.
+
+---
+
+## Why this exists
+
+Students using common sheets (Striver, Codolio, spreadsheets):
+
+- jump randomly between topics
+- forget previously solved problems
+- never revise
+- cannot identify weak areas
+- feel progress but lack readiness
+
+SheetFlow fixes the workflow, not the problem list.
+
+---
+
+## Core Features
+
+| Feature | What it actually helps with |
+|---|---|
+| Topic hierarchy | prevents cognitive overload |
+| Question cards | focused reading + actions |
+| Mark solved | real progress tracking |
+| Revision list | active recall (most important) |
+| Filters & search | targeted practice |
+| Random mode | interview simulation |
+| Progress charts | motivation + feedback |
+| Direct links (LC/YT) | no context switching |
+
+---
+
+## What makes it different
+
+Static sheets are **content organizers**.  
+SheetFlow is a **learning behavior tool**.
+
+| Static Sheet | SheetFlow |
+|---|---|
+| You read problems | You interact with them |
+| You finish topics | You master topics |
+| You track count | You track retention |
+| You rely on memory | You train recall |
+
+---
+
+## How it works (under the hood)
+
+Topic
+└── Subtopic
+└── Question
+
+- Dataset loaded from `/public/sheet.json`
+- State handled via Zustand
+- Progress persisted in browser storage
+- SPA routing supported on Vercel CDN
+
+---
+
+## Tech Stack
+
+- React + TypeScript (Vite)
+- Zustand (state)
+- Tailwind CSS (UI)
+- Vercel (deployment)
+
+---
+## Run locally
+
+```bash
+npm install
+npm run dev
+```
+## Production:
+```bash
+npm run build
+npm run preview
+```
+## Limitations (Honest MVP Scope)
+| Current Implementation | Next Step |
+|---|---|
+| Local storage persistence | Add user accounts & cloud sync |
+| Manual revision tracking | Spaced repetition scheduler |
+| Static dataset | Backend API & database |
+
+## Vision
+The goal is simple:
+Not help students solve more problems.
+Help them remember patterns when the interview starts.
