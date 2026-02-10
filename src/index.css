@@ -1,0 +1,24 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --sidebar-width: 260px;
+  --bg-light: #f5f7fb;
+  --text-light: #0f172a;
+  --bg-dark: #0F1419;
+  --text-dark: #e5e7eb;
+}
+
+html, body, #root {
+  height: 100%;
+}
+
+body {
+  background-color: var(--bg-light);
+  color: var(--text-light);
+}
+.dark body {
+  background-color: var(--bg-dark);
+  color: var(--text-dark);
+}
