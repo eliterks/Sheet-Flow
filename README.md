@@ -1,4 +1,4 @@
-# Interactive Question Manager (IQM)
+# Sheet Flow: Smoothens your flow of learning DSA!
 
 A modern, mobile-first DSA practice interface inspired by Codolio and Striver’s sheets, with streamlined navigation, powerful filtering, and clear progress tracking. Built with React + Vite + TypeScript and Tailwind CSS.
 
