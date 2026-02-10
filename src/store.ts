@@ -39,55 +39,140 @@ export const useSheetStore = create<SheetState & Actions>((set, get) => ({
     try {
       const persisted = localStorage.getItem('qm-persist')
       const persistedObj = persisted ? JSON.parse(persisted) : undefined
-      const resp = await fetch(
-        'https://node.codolio.com/api/question-tracker/v1/sheet/public/get-sheet-by-slug/striver-sde-sheet',
-      )
-      const json = await resp.json()
-      const items: any[] = json?.data?.questions ?? []
-      const grouped = new Map<string, Map<string, SubTopic>>()
-      for (const item of items) {
-        const topicName = item.topic || 'General'
-        const subName = item.subTopic || item.title || 'Misc'
-        const q: Question = {
-          id: item._id,
-          name: item.questionId?.name ?? item.title ?? 'Untitled',
-          difficulty: (item.questionId?.difficulty ?? 'Medium') as Difficulty,
-          problemUrl: item.questionId?.problemUrl,
-          platform: item.questionId?.platform,
-          resource: item.resource,
-          topics: item.questionId?.topics ?? [],
-          isSolved: !!item.isSolved,
-          notes: '',
-          starred: false,
+
+      let topics: Topic[] | undefined
+      // Prefer local public/sheet.json if available
+      try {
+        const localResp = await fetch('/sheet.json', { cache: 'no-store' })
+        if (localResp.ok) {
+          const localJson = await localResp.json()
+          if (Array.isArray((localJson as any).topics)) {
+            const tps = (localJson as any).topics as any[]
+            topics = tps.map((t) => ({
+              id: uid(),
+              name: t.name ?? 'Topic',
+              subTopics: (t.subTopics ?? []).map((st: any) => ({
+                id: uid(),
+                name: st.name ?? 'Sub-topic',
+                questions: (st.questions ?? []).map((q: any) => ({
+                  id: q.id ?? uid(),
+                  name: q.name ?? 'Untitled',
+                  difficulty: (q.difficulty ?? 'Medium') as Difficulty,
+                  problemUrl: q.problemUrl,
+                  platform: q.platform,
+                  resource: q.resource,
+                  topics: Array.isArray(q.topics) ? q.topics : [],
+                  isSolved: !!q.isSolved,
+                  notes: q.notes ?? '',
+                  starred: !!q.starred,
+                })),
+              })),
+            }))
+          } else if ((localJson as any)?.data?.questions) {
+            const json: any = localJson
+            const items: any[] = json?.data?.questions ?? []
+            const grouped = new Map<string, Map<string, SubTopic>>()
+            for (const item of items) {
+              const topicName = item.topic || 'General'
+              const subName = item.subTopic || item.title || 'Misc'
+              const q: Question = {
+                id: item._id ?? uid(),
+                name: item.questionId?.name ?? item.title ?? 'Untitled',
+                difficulty: (item.questionId?.difficulty ?? 'Medium') as Difficulty,
+                problemUrl: item.questionId?.problemUrl,
+                platform: item.questionId?.platform,
+                resource: item.resource,
+                topics: item.questionId?.topics ?? [],
+                isSolved: !!item.isSolved,
+                notes: '',
+                starred: false,
+              }
+              if (!grouped.has(topicName)) grouped.set(topicName, new Map())
+              const subMap = grouped.get(topicName)!
+              if (!subMap.has(subName))
+                subMap.set(subName, { id: uid(), name: subName, questions: [] })
+              subMap.get(subName)!.questions.push(q)
+            }
+            const order: string[] =
+              (json?.data?.sheet?.config?.topicOrder as string[] | undefined) ??
+              Array.from(grouped.keys())
+            const qOrder: string[] =
+              (json?.data?.sheet?.config?.questionOrder as string[] | undefined) ?? []
+            const qIndex = new Map<string, number>(qOrder.map((id, i) => [id, i]))
+            topics = order.map((tName) => {
+              const subMap = grouped.get(tName) ?? new Map<string, SubTopic>()
+              const subs = Array.from(subMap.values()).map((st) => ({
+                ...st,
+                questions: [...st.questions].sort((a, b) => {
+                  const ai = qIndex.get(a.id) ?? Number.MAX_SAFE_INTEGER
+                  const bi = qIndex.get(b.id) ?? Number.MAX_SAFE_INTEGER
+                  return ai - bi
+                }),
+              }))
+              return {
+                id: uid(),
+                name: tName,
+                subTopics: subs,
+              }
+            })
+          }
         }
-        if (!grouped.has(topicName)) grouped.set(topicName, new Map())
-        const subMap = grouped.get(topicName)!
-        if (!subMap.has(subName))
-          subMap.set(subName, { id: uid(), name: subName, questions: [] })
-        subMap.get(subName)!.questions.push(q)
+      } catch (_) {
+        // ignore local load failure and fallback to API
       }
-      const order: string[] =
-        (json?.data?.sheet?.config?.topicOrder as string[] | undefined) ?? Array.from(grouped.keys())
-      const qOrder: string[] = (json?.data?.sheet?.config?.questionOrder as string[] | undefined) ?? []
-      const qIndex = new Map<string, number>(qOrder.map((id, i) => [id, i]))
-      const topics: Topic[] = order.map((tName) => {
-        const subMap = grouped.get(tName) ?? new Map<string, SubTopic>()
-        const subs = Array.from(subMap.values()).map((st) => ({
-          ...st,
-          questions: [...st.questions].sort((a, b) => {
-            const ai = qIndex.get(a.id) ?? Number.MAX_SAFE_INTEGER
-            const bi = qIndex.get(b.id) ?? Number.MAX_SAFE_INTEGER
-            return ai - bi
-          }),
-        }))
-        return {
-          id: uid(),
-          name: tName,
-          subTopics: subs,
+
+      if (!topics) {
+        const resp = await fetch(
+          'https://node.codolio.com/api/question-tracker/v1/sheet/public/get-sheet-by-slug/striver-sde-sheet',
+        )
+        const json = await resp.json()
+        const items: any[] = json?.data?.questions ?? []
+        const grouped = new Map<string, Map<string, SubTopic>>()
+        for (const item of items) {
+          const topicName = item.topic || 'General'
+          const subName = item.subTopic || item.title || 'Misc'
+          const q: Question = {
+            id: item._id,
+            name: item.questionId?.name ?? item.title ?? 'Untitled',
+            difficulty: (item.questionId?.difficulty ?? 'Medium') as Difficulty,
+            problemUrl: item.questionId?.problemUrl,
+            platform: item.questionId?.platform,
+            resource: item.resource,
+            topics: item.questionId?.topics ?? [],
+            isSolved: !!item.isSolved,
+            notes: '',
+            starred: false,
+          }
+          if (!grouped.has(topicName)) grouped.set(topicName, new Map())
+          const subMap = grouped.get(topicName)!
+          if (!subMap.has(subName))
+            subMap.set(subName, { id: uid(), name: subName, questions: [] })
+          subMap.get(subName)!.questions.push(q)
         }
-      })
+        const order: string[] =
+          (json?.data?.sheet?.config?.topicOrder as string[] | undefined) ??
+          Array.from(grouped.keys())
+        const qOrder: string[] = (json?.data?.sheet?.config?.questionOrder as string[] | undefined) ?? []
+        const qIndex = new Map<string, number>(qOrder.map((id, i) => [id, i]))
+        topics = order.map((tName) => {
+          const subMap = grouped.get(tName) ?? new Map<string, SubTopic>()
+          const subs = Array.from(subMap.values()).map((st) => ({
+            ...st,
+            questions: [...st.questions].sort((a, b) => {
+              const ai = qIndex.get(a.id) ?? Number.MAX_SAFE_INTEGER
+              const bi = qIndex.get(b.id) ?? Number.MAX_SAFE_INTEGER
+              return ai - bi
+            }),
+          }))
+          return {
+            id: uid(),
+            name: tName,
+            subTopics: subs,
+          }
+        })
+      }
       set({
-        topics,
+        topics: topics!,
         selectedTopicId: topics[0]?.id,
         selectedSubTopicId: topics[0]?.subTopics[0]?.id,
         revision: persistedObj?.revision ?? [],
