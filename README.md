@@ -32,6 +32,7 @@ A modern, mobile-first DSA practice interface inspired by Codolio and Striver’
 - Sidebar (Topics)
   - Topic rows with solved/total counts and animated gradient progress bars.
   - Click to focus; toggle visibility via the window icon.
+  - Edit Topics: rename topic names directly from the sidebar.
 - Filter Bar
   - Search field, Solved/Difficulty/Order dropdowns, Random picker.
   - Tabs: Overview (heatmap), Revision (list management).

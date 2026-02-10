@@ -16,6 +16,7 @@ function App() {
     selectedSubTopicId,
     loadInitialData,
     selectTopic,
+    editTopic,
     addSubTopic,
     addQuestion,
     setSearchQuery,
@@ -159,7 +160,21 @@ function App() {
                       >
                         <div className="flex items-center justify-between">
                           <span className="text-sm font-medium text-gray-900 dark:text-white">{t.name}</span>
-                          <span className="text-xs text-gray-400">{solved}/{total}</span>
+                          <span className="flex items-center gap-2">
+                            <span className="text-xs text-gray-400">{solved}/{total}</span>
+                            <button
+                              className="rounded border px-2 py-0.5 text-xs"
+                              onClick={(e) => {
+                                e.stopPropagation()
+                                const nn = prompt('Rename topic', t.name)
+                                if (nn && nn.trim()) editTopic(t.id, nn.trim())
+                              }}
+                              title="Rename topic"
+                              aria-label="Rename topic"
+                            >
+                              Edit
+                            </button>
+                          </span>
                         </div>
                         <div className="mt-2 h-2 w-full rounded bg-gray-700">
                           <div
