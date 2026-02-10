@@ -61,6 +61,29 @@ export function QuestionCard({
         <button
           className="rounded-md border px-2 py-1 text-xs"
           onClick={() => {
+            const nn = prompt('Edit title', q.name)
+            if (nn && nn.trim()) {
+              useSheetStore.getState().editQuestion(topicId, subId, q.id, { name: nn.trim() })
+            }
+          }}
+          title="Edit title"
+        >
+          Edit
+        </button>
+        <button
+          className="rounded-md border px-2 py-1 text-xs"
+          onClick={() => {
+            if (confirm('Delete this question?')) {
+              useSheetStore.getState().deleteQuestion(topicId, subId, q.id)
+            }
+          }}
+          title="Delete question"
+        >
+          Delete
+        </button>
+        <button
+          className="rounded-md border px-2 py-1 text-xs"
+          onClick={() => {
             const nn = prompt('Notes', q.notes ?? '')
             if (nn === null) return
             useSheetStore.getState().editQuestion(topicId, subId, q.id, { notes: nn })

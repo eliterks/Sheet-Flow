@@ -17,6 +17,7 @@ function App() {
     loadInitialData,
     selectTopic,
     editTopic,
+    addTopic,
     addSubTopic,
     addQuestion,
     setSearchQuery,
@@ -27,6 +28,7 @@ function App() {
     revision,
     toggleRevision,
     reorderTopics,
+    reorderQuestions,
     resetToApi,
   } = useSheetStore()
 
@@ -113,6 +115,16 @@ function App() {
             <ThemeToggle />
             <button
               className="rounded-md border px-2 py-1 text-sm"
+              onClick={() => {
+                const nn = prompt('New topic name')
+                if (nn && nn.trim()) addTopic(nn.trim())
+              }}
+              title="Add Topic"
+            >
+              Add Topic
+            </button>
+            <button
+              className="rounded-md border px-2 py-1 text-sm"
               onClick={() => resetToApi()}
               title="Reload from API"
             >
@@ -173,6 +185,19 @@ function App() {
                               aria-label="Rename topic"
                             >
                               Edit
+                            </button>
+                            <button
+                              className="rounded border px-2 py-0.5 text-xs"
+                              onClick={(e) => {
+                                e.stopPropagation()
+                                if (confirm('Delete this topic?')) {
+                                  useSheetStore.getState().deleteTopic(t.id)
+                                }
+                              }}
+                              title="Delete topic"
+                              aria-label="Delete topic"
+                            >
+                              Delete
                             </button>
                           </span>
                         </div>
@@ -339,17 +364,24 @@ function App() {
                   </div>
                 ) : (
                   <div className="mt-3 space-y-3">
-                    {selectedTopic && selectedSub
-                      ? visibleQuestions.map((q) => (
-                          <QuestionCard
-                            key={q.id}
-                            q={q}
-                            topicId={selectedTopic.id}
-                            subId={selectedSub.id}
-                            highlight={randomPicks.includes(q.id)}
-                          />
-                        ))
-                      : null}
+                    {selectedTopic && selectedSub ? (
+                      <SortableList
+                        ids={visibleQuestions.map((q) => q.id)}
+                        onReorder={(a, b) => reorderQuestions(selectedTopic.id, selectedSub.id, a, b)}
+                        renderItem={(id) => {
+                          const q = visibleQuestions.find((x) => x.id === id)!
+                          return (
+                            <QuestionCard
+                              key={id}
+                              q={q}
+                              topicId={selectedTopic.id}
+                              subId={selectedSub.id}
+                              highlight={randomPicks.includes(id)}
+                            />
+                          )
+                        }}
+                      />
+                    ) : null}
                   </div>
                 )}
               </div>

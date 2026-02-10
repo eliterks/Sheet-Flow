@@ -29,6 +29,7 @@ A modern, mobile-first DSA practice interface inspired by Codolio and Striver’
 ## Navigation
 - Header
   - Title, theme toggle, and Reload to sync with the API.
+  - Add Topic: create new topics; rename or delete from the sidebar.
 - Sidebar (Topics)
   - Topic rows with solved/total counts and animated gradient progress bars.
   - Click to focus; toggle visibility via the window icon.
@@ -38,10 +39,13 @@ A modern, mobile-first DSA practice interface inspired by Codolio and Striver’
   - Tabs: Overview (heatmap), Revision (list management).
 - Sub-topics
   - Add new sub-topics; switch to scope questions.
+- Edit/Delete Sub-topics: inline controls with drag-and-drop reordering.
 - Add Question
   - Users can create/edit/delete questions under specific topics and sub-topics.
 - Questions
   - Mobile list-first; tap to open the inline card. Desktop shows stacked cards.
+- Create/Edit/Delete: add new questions; rename or remove from the card actions.
+- Reorder: drag and drop to adjust question order within a sub-topic.
 - Question Card
   - Title, metadata, difficulty badge, tags.
   - Actions: Solved/Unsolved, Revision add/remove, Notes, Open link.
