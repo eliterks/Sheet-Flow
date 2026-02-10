@@ -22,3 +22,8 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+ 
+# Project-local excludes
+Prompt.txt
+UI/
+sheet.json
