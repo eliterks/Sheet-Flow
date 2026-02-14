@@ -7,10 +7,13 @@
 SheetFlow turns a static DSA sheet into an **interactive learning system** — built for retention, revision, and focused practice.
 SheetFlow is a learning layer built on top of DSA sheets — turning practice into preparation.
 
-# 🎥 **Demo Video:**  
+# **Sneak Peek:**  
+<img width="1887" height="837" alt="image" src="https://github.com/user-attachments/assets/cf7eb8fe-a0b6-4b44-8e46-65efc52985ed" />
+
+# **🎥Demo Video:**  
 https://www.youtube.com/watch?v=XYsWztbl9io
 
-🌐 **Live App:**  
+# 🌐 **Live App:**  
 https://sheet-flow-blush.vercel.app/
 ---
 
